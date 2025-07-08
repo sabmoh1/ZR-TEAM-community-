@@ -155,12 +155,17 @@ async def ban_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_to_message_id=update.message.message_id,
         )
 
-if __name__ == "__main__":
-    app = ApplicationBuilder().token(BOT_TOKEN).build()
-    app.add_handler(CommandHandler("acc", acc_command))
-    app.add_handler(CommandHandler("bnr", bnr_command))
-    app.add_handler(CommandHandler("fit", fit_command))
-    app.add_handler(CommandHandler("ban", ban_command))
+import asyncio
 
-    print("✅ Bot is running with commands /acc /bnr /fit /ban")
-    app.run_polling()
+if __name__ == "__main__":
+    async def main():
+        app = ApplicationBuilder().token(BOT_TOKEN).build()
+        app.add_handler(CommandHandler("acc", acc_command))
+        app.add_handler(CommandHandler("bnr", bnr_command))
+        app.add_handler(CommandHandler("fit", fit_command))
+        app.add_handler(CommandHandler("ban", ban_command))
+
+        print("✅ Bot is running with commands /acc /bnr /fit /ban")
+        await app.run_polling()
+
+    asyncio.run(main())
