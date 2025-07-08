@@ -13,19 +13,13 @@ BOT_TOKEN = "7694605774:AAFmghA-wropGxBMPWyBKBftxZNyIs82S7c"
 # /acc command
 async def acc_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
-        # أرسل رسالة الانتظار وخزنها
         wait_msg = await update.message.reply_text(
             "⏳ 𝗚𝗘𝗧𝗧𝗜𝗡𝗚 𝗜𝗡𝗙𝗢𝗥𝗠𝗔𝗧𝗜𝗢𝗡... 🔄",
             reply_to_message_id=update.message.message_id,
         )
-
-        # انتظر 3 ثواني
         await asyncio.sleep(3)
-
-        # احذف الرسالة المؤقتة
         await wait_msg.delete()
 
-        # الآن نفذ الطلب
         region = context.args[0]
         uid = context.args[1]
         url = f"https://garenafreefireaccount.vercel.app/playerpersonalshow?uid={uid}&region={region}"
@@ -64,7 +58,7 @@ async def acc_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 "❌ Failed to fetch account data.",
                 reply_to_message_id=update.message.message_id,
             )
-    except Exception as e:
+    except Exception:
         await update.message.reply_text(
             "⚠️ Use the command like this:\n/acc sg 12345678",
             reply_to_message_id=update.message.message_id,
@@ -155,17 +149,12 @@ async def ban_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_to_message_id=update.message.message_id,
         )
 
-import asyncio
 
 if __name__ == "__main__":
-    async def main():
-        app = ApplicationBuilder().token(BOT_TOKEN).build()
-        app.add_handler(CommandHandler("acc", acc_command))
-        app.add_handler(CommandHandler("bnr", bnr_command))
-        app.add_handler(CommandHandler("fit", fit_command))
-        app.add_handler(CommandHandler("ban", ban_command))
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
+    app.add_handler(CommandHandler("acc", acc_command))
+    app.add_handler(CommandHandler("bnr", bnr_command))
+    app.add_handler(CommandHandler("fit", fit_command))
+    app.add_handler(CommandHandler("ban", ban_command))
 
-        print("✅ Bot is running with commands /acc /bnr /fit /ban")
-        await app.run_polling()
-
-    asyncio.run(main())
+    app.run_polling()
